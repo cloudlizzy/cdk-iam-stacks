@@ -1,33 +1,15 @@
 version: "3"
 
 tasks:
-  list-github-stack:
-    desc: List github actions stack
+  github-stack:
+    desc: Github Actions Stack
     dotenv: [ "{{.CLI_ARGS }}" ]
     cmds:
       - |
-        npx projen list:github
-
-  synth-github-stack:
-    desc: List github actions stack
-    dotenv: [ "{{.CLI_ARGS }}" ]
-    cmds:
-      - |
-        npx projen synth:github
-
-  diff-github-stack:
-    desc: Diff github actions stack
-    dotenv: [ "{{.CLI_ARGS }}" ]
-    cmds:
-      - |
-        npx projen diff:github
-
-  deploy-github-stack:
-    desc: Deploy github actions stack
-    dotenv: [ "{{.CLI_ARGS }}" ]
-    cmds:
-      - |
-        npx projen deploy:github
+        # Prompt for cdk command
+        echo "Please enter cdk command diff,synth,deploy etc:"
+        read cdk_command
+        yarn cdk:github $cdk_command
 
   bootstrap-account:
     desc: "Bootstrap the project"

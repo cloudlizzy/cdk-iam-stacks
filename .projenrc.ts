@@ -72,31 +72,9 @@ project.jest?.addTestMatch('**/?(*.)@(spec|test).[tj]s?(x)');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.build.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('upgrade')!.file!.addOverride('jobs.upgrade.permissions.id-token', 'write');
 
-const baseSynth =
-    'cdk synth -a "npx ts-node -P tsconfig.json --prefer-ts-exts';
-
-const baseList =
-    'cdk list -a "npx ts-node -P tsconfig.json --prefer-ts-exts';
-
-const baseDeploy = 'cdk deploy -a "npx ts-node -P tsconfig.json --prefer-ts-exts';
-
-const diffDeploy = 'cdk diff -a "npx ts-node -P tsconfig.json --prefer-ts-exts';
-
-project.addTask('synth:github', {
-  exec: `${baseSynth} src/github-actions.ts"`,
+project.addTask('cdk:github', {
+  receiveArgs: true,
+  exec: 'cdk -a "npx ts-node -P tsconfig.json --prefer-ts-exts src/github-actions.ts"',
 });
-
-project.addTask('list:github', {
-  exec: `${baseList} src/github-actions.ts"`,
-});
-
-project.addTask('deploy:github', {
-  exec: `${baseDeploy} src/github-actions.ts"`,
-});
-
-project.addTask('diff:github', {
-  exec: `${diffDeploy} src/github-actions.ts"`,
-});
-
 
 project.synth();
