@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Duration, Stack, StackProps } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import { GitHubActionsInlinePolicy } from '../policies/GitHubActionsInlinePolicy';
@@ -40,10 +40,15 @@ export class GithubActionsStack extends Stack {
     new iam.OpenIdConnectProvider(this, 'Provider', {
       url: 'https://token.actions.githubusercontent.com',
       clientIds: ['sts.amazonaws.com', `https://github.com/${props.orgName}`],
+      thumbprints: [
+        '6938fd4d98bab03faadb97b34396831e3780aea1',
+        '1c58a3a8518e8759bf075b76b750d4f2df264fcd',
+      ],
     });
 
-    if (role) {
-    }
+    new CfnOutput(this, 'GitHubActionsRoleArn', {
+      value: role.roleArn,
+    });
 
   }
 }
